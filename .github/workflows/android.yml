@@ -29,6 +29,12 @@ jobs:
           -keyalg RSA -keysize 2048 -validity 10000
           -storepass android -keypass android -dname "CN=Image3DHouse"
 
+      # The game targets Android 13 (API 33); the GitHub computers only have newer ones installed.
+      - name: Install the Android platform the game targets
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-33"
+
       - name: Build the APK
         env:
           CARGO_APK_RELEASE_KEYSTORE_PASSWORD: android
